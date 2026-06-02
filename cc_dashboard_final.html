@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CC Project Dashboard — May 2026 | BISSELL</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Montserrat',Arial,sans-serif;background:#FAF5EA;color:#001E4B;font-size:13px;}
+a{font-family:inherit;}
+button{font-family:inherit;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:#f0ece0;}
+::-webkit-scrollbar-thumb{background:#9BACC3;border-radius:3px;}
+
+/* HEADER */
+.hdr{background:#001E4B;}
+.hdr-inner{display:flex;align-items:center;gap:18px;padding:18px 28px 12px;}
+.hdr-text{flex:1;}
+.hdr-eyebrow{font-size:9px;font-weight:700;letter-spacing:.18em;color:#9BACC3;text-transform:uppercase;margin-bottom:3px;}
+.hdr-title{font-size:20px;font-weight:800;color:#FFFCF2;letter-spacing:-.02em;}
+.hdr-meta{text-align:right;}
+.hdr-date{font-size:11px;font-weight:700;color:#FFFCF2;}
+.hdr-sub{font-size:9px;color:#9BACC3;margin-top:2px;}
+.hdr-sources{display:flex;gap:8px;padding:0 28px 12px;flex-wrap:wrap;}
+.src-badge{font-size:9px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.08);padding:3px 10px;border-radius:20px;letter-spacing:.04em;}
+
+/* TABS */
+.tabs{display:flex;border-top:1px solid rgba(255,255,255,.1);}
+.tab-btn{padding:11px 20px;font-size:11px;font-weight:700;cursor:pointer;border:none;background:transparent;color:#9BACC3;border-bottom:3px solid transparent;transition:all .12s;letter-spacing:.02em;}
+.tab-btn.active{background:#FFFCF2;color:#001E4B;border-bottom:3px solid #FA1400;}
+.tab-btn:hover:not(.active){color:#FFFCF2;}
+
+/* CONTENT */
+.main{padding:24px;max-width:1200px;margin:0 auto;}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+
+/* CARDS */
+.card{background:#fff;border-radius:14px;padding:20px 22px;border:1.5px solid #e0dcd0;}
+.card-sm{background:#fff;border-radius:12px;padding:16px 18px;border:1.5px solid #e0dcd0;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.col-span-2{grid-column:1/3;}
+
+/* EYEBROW */
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#9BACC3;margin-bottom:12px;}
+
+/* STAT PILL */
+.stat-pill{border-radius:10px;padding:12px 10px;text-align:center;}
+.stat-num{font-size:24px;font-weight:800;line-height:1;}
+.stat-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:4px;opacity:.85;}
+
+/* PROGRESS BAR */
+.prog-wrap{display:flex;height:8px;border-radius:99px;overflow:hidden;gap:2px;margin-bottom:6px;}
+.prog-seg{height:100%;}
+.prog-legend{display:flex;flex-wrap:wrap;gap:6px 14px;}
+.prog-legend span{font-size:9px;font-weight:700;}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+.filter-bar .spacer{flex:1;}
+.filter-btn{font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;border:1.5px solid #e0dcd0;background:#fff;color:#001E4B;cursor:pointer;transition:all .1s;}
+.filter-btn.active{background:#001E4B;color:#FFFCF2;border-color:#001E4B;}
+.search-input{font-size:11px;padding:6px 14px;border-radius:20px;border:1.5px solid #e0dcd0;outline:none;min-width:220px;color:#001E4B;}
+
+/* EXT LINK BUTTON */
+.ext-link{font-size:10px;font-weight:700;text-decoration:none;padding:5px 12px;border-radius:20px;border:1px solid;white-space:nowrap;}
+
+/* SECTION HEADER */
+.sec-hdr{display:flex;align-items:center;gap:8px;padding:7px 14px;background:#f5f2ea;border-radius:10px 10px 0 0;border-bottom:1px solid #e0dcd0;}
+.sec-hdr-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
+.sec-hdr-count{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.sec-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* TABLE SECTION */
+.tbl-section{margin-bottom:12px;}
+.tbl-body{background:#fff;border-radius:0 0 10px 10px;border:1.5px solid #e0dcd0;border-top:none;overflow:hidden;}
+.tbl-row{display:flex;align-items:center;gap:12px;padding:9px 14px;border-bottom:1px solid #f5f2ea;}
+.tbl-row:last-child{border-bottom:none;}
+.tbl-row:nth-child(even){background:#faf8f2;}
+.tbl-row:hover{background:#f5f2ea;}
+
+/* BADGES */
+.badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+.type-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap;flex-shrink:0;}
+
+/* PIPELINE TABLE */
+.pip-table{width:100%;border-collapse:collapse;}
+.pip-table th{padding:10px 12px;text-align:left;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9BACC3;background:#001E4B;}
+.pip-table td{padding:10px 12px;font-size:11px;border-bottom:1px solid #f0ece0;vertical-align:middle;}
+.pip-bar-on{height:8px;border-radius:4px;border:1px solid rgba(0,0,0,.07);}
+.pip-bar-off{height:8px;background:#f0ece0;border-radius:4px;}
+
+/* QUARTER BTNS */
+.q-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.q-btn{cursor:pointer;border:1.5px solid #e0dcd0;border-radius:10px;padding:8px 18px;background:#fff;color:#001E4B;transition:all .1s;text-align:center;}
+.q-btn.active{background:#001E4B;color:#FFFCF2;border-color:#001E4B;}
+.q-btn .q-num{font-size:15px;font-weight:800;}
+.q-btn .q-lbl{font-size:9px;opacity:.7;margin-top:2px;}
+.q-btn .q-count{margin-top:5px;font-size:9px;font-weight:700;padding:2px 8px;border-radius:8px;background:#e8f0fe;color:#001EE6;}
+.q-btn.active .q-count{background:rgba(255,255,255,.15);color:#FFFCF2;}
+
+/* LEGEND BOX */
+.legend-box{background:#fff;border-radius:12px;padding:12px 18px;border:1.5px solid #e0dcd0;margin-bottom:16px;}
+.legend-items{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px;}
+.legend-item{display:flex;align-items:center;gap:6px;}
+.legend-dot{width:12px;height:12px;border-radius:3px;border:1px solid rgba(0,0,0,.1);flex-shrink:0;}
+
+/* CALLOUT */
+.callout{border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:12px;margin-bottom:14px;border:1px solid #e0dcd0;}
+
+/* FOOTER */
+.ftr{background:#001E4B;padding:12px 28px;display:flex;justify-content:space-between;align-items:center;margin-top:32px;flex-wrap:wrap;gap:8px;}
+.ftr-text{font-size:10px;color:#9BACC3;}
+.ftr-conf{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#556888;}
+
+/* Q GRID */
+.q-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.q-cat-card{background:#fff;border-radius:12px;padding:16px 18px;border:1.5px solid #e0dcd0;}
+.q-cat-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;}
+.q-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f5f2ea;}
+.q-item:last-child{border-bottom:none;}
+.q-color-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;border:1px solid rgba(0,0,0,.08);}
+.q-item-name{font-size:11px;color:#001E4B;font-weight:600;flex:1;line-height:1.3;}
+
+/* OVERVIEW ROADMAP */
+.mini-cat-bar{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.mini-cat-name{font-size:10px;font-weight:700;width:140px;flex-shrink:0;}
+.mini-cat-track{flex:1;background:#f5f2ea;border-radius:6px;height:8px;overflow:hidden;}
+.mini-cat-fill{height:100%;border-radius:6px;opacity:.75;}
+.mini-cat-n{font-size:10px;font-weight:700;color:#9BACC3;width:20px;text-align:right;}
+
+@media(max-width:700px){
+  .hdr-inner,.hdr-sources,.main,.ftr{padding-left:14px;padding-right:14px;}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+  .col-span-2{grid-column:1/2;}
+  .q-grid{grid-template-columns:1fr;}
+  .pip-table th:nth-child(3),.pip-table td:nth-child(3),.pip-table th:nth-child(5),.pip-table td:nth-child(5){display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-inner">
+    <svg width="706" height="492" viewBox="0 0 706 492" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:28px;width:auto;flex-shrink:0;">
+      <g clip-path="url(#lc)"><mask id="lm" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="706" height="492"><path d="M706 0H0v492h706V0Z" fill="#fff"/></mask><g mask="url(#lm)">
+      <path d="M125.436 277.48c3.837-4.739 5.947-10.703 5.947-16.811 0-7.012-2.694-13.635-7.582-18.65-4.88-5.005-11.408-7.864-18.388-8.046L.003 233.954v94.032h.144L110.4 327.98c15.14 0 27.461-12.335 27.461-27.496 0-9.308-4.642-17.894-12.425-23.004ZM99.1 272.977l-79.107.008v-24.63l79.107.005c6.776 0 12.29 5.522 12.29 12.309 0 6.786-5.514 12.308-12.29 12.308Zm-79.107 14.406H104.838c7.21.002 13.08 5.878 13.08 13.101s-5.87 13.098-13.08 13.098L19.993 313.588v-26.205Z" fill="#fff"/>
+      <path d="M485.205 260.666c0 7.496 3.17 14.682 8.703 19.737-5.533 5.187-8.703 12.496-8.703 20.078 0 15.14 12.288 27.464 27.401 27.497l92.387.005v-14.398h-68.086l.005-.005h-18.685c-7.213 0-13.08-5.876-13.08-13.099s5.867-13.101 13.08-13.101h79.243v-14.398h-61.922v-.005h-18.059c-6.777 0-12.294-5.525-12.294-12.311s5.517-12.311 12.294-12.311h87.504v-14.403H511.881c-14.709 0-26.676 11.984-26.676 26.714Z" fill="#fff"/>
+      <path d="M297.748 272.987 218.679 272.979c-6.78 0-12.294-5.521-12.294-12.308s5.514-12.311 12.294-12.311h70.499c6.78 0 12.294 5.522 12.294 12.311v3.338H321.462v-3.338c0-7.011-2.691-13.634-7.579-18.65-4.832-4.956-11.282-7.807-18.177-8.04l.008-.024H213.069c-14.71 0-26.674 11.984-26.674 26.714s11.964 27.426 26.671 27.426h78.972c7.213.002 13.08 5.88 13.08 13.104s-5.867 13.098-13.08 13.098H218.607c-7.213 0-13.08-5.878-13.08-13.098l-.006-3.341H185.584v3.341c0 15.156 12.315 27.491 27.45 27.493h84.566c15.143 0 27.461-12.332 27.461-27.493 0-15.162-12.24-27.419-27.313-27.5Z" fill="#fff"/>
+      <path d="M447.412 272.99 368.135 272.979c-6.777 0-12.291-5.521-12.291-12.308s5.514-12.311 12.291-12.311h70.502c6.779 0 12.293 5.522 12.293 12.311v3.338H470.921v-3.338c0-7.011-2.694-13.634-7.582-18.65-4.829-4.953-11.272-7.801-18.164-8.04l.011-.024H362.527c-14.709 0-26.676 11.984-26.676 26.714s11.967 27.426 26.673 27.426h78.973c7.213 0 13.08 5.88 13.08 13.104s-5.867 13.098-13.08 13.098H368.065c-7.213 0-13.08-5.878-13.08-13.098v-3.341H335.043v3.341c0 15.156 12.315 27.491 27.449 27.496h84.567c15.143 0 27.46-12.335 27.46-27.496 0-15.047-12.13-27.309-27.11-27.497" fill="#fff"/>
+      <path d="M170.894 201.542H152.243v21.784h18.651v-21.784ZM491.591 197.429C462.429 146.798 398.054 35.336 389.107 22.457 378.055 6.548 365.034.043 350.343.003 335.655.043 322.634 6.548 311.582 22.457c-8.946 12.879-73.276 124.341-102.419 174.972h282.428Z" fill="#FA1400"/>
+      <path d="M620.278 423.421c-2.879-6.135-16.505-30.454-33.408-60.175H113.814c-16.898 29.694-30.516 53.983-33.394 60.116-8.232 17.541-7.347 32.086.038 44.844 7.379 12.718 19.515 20.759 38.799 22.39 20.279 1.715 231.113 1.366 231.113 1.366l-.005-.005s210.872.41 231.151-1.302c19.285-1.632 31.42-9.672 38.799-22.39 7.309-12.761 8.195-27.303-.037-44.844Z" fill="#FA1400"/>
+      <path d="M170.894 233.957H152.243v94.031h18.651v-94.031ZM636.643 201.544H618.803v126.444h17.84V201.544ZM670.717 201.544H652.877v126.444h17.84V201.544Z" fill="#fff"/>
+      </g></g><defs><clipPath id="lc"><rect width="706" height="492" fill="#fff"/></clipPath></defs>
+    </svg>
+    <div class="hdr-text">
+      <div class="hdr-eyebrow">Consumer Care Project Management</div>
+      <div class="hdr-title">CC Project Dashboard</div>
+    </div>
+    <div class="hdr-meta">
+      <div class="hdr-date">May 2026</div>
+      <div class="hdr-sub">Sprint 26.2.5 · Live Data</div>
+    </div>
+  </div>
+  <div class="hdr-sources">
+    <a class="src-badge" href="https://app.smartsheet.com/sheets/6798340143402884" target="_blank" style="color:#A9C47F;border:1px solid #A9C47F44;">↗ Smartsheet</a>
+    <a class="src-badge" href="https://bissell.visualstudio.com/Consumer2/_dashboards/dashboard/204b3b7b-4213-4503-8b94-5114af18b2df" target="_blank" style="color:#001EE6;border:1px solid #001EE644;">↗ Azure DevOps 26.2.5</a>
+    <a class="src-badge" href="https://miro.com/app/board/uXjVJ2hDkcg=/" target="_blank" style="color:#FA1400;border:1px solid #FA140044;">↗ Miro 2026 Roadmap</a>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('overview',this)">Overview</button>
+    <button class="tab-btn" onclick="showTab('sprint',this)">Sprint 26.2.5</button>
+    <button class="tab-btn" onclick="showTab('intake',this)">Intake Requests</button>
+    <button class="tab-btn" onclick="showTab('roadmap',this)">2026 Roadmap</button>
+    <button class="tab-btn" onclick="showTab('pipeline',this)">Pipeline</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ══ OVERVIEW ══════════════════════════════════════════════════════════════ -->
+<div id="tab-overview" class="tab-pane active">
+  <div class="grid-2">
+
+    <!-- Intake -->
+    <div class="card col-span-2">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <div class="eyebrow" style="margin-bottom:0;flex:1;">Intake Pipeline — 39 Active Requests</div>
+        <span style="font-size:10px;color:#9BACC3;">+ 10 completed (tracked)</span>
+        <a class="ext-link" href="https://app.smartsheet.com/sheets/6798340143402884" target="_blank" style="color:#001E4B;background:#e8eef7;border-color:#9BACC344;">↗ Smartsheet</a>
+      </div>
+      <div class="grid-4" style="margin-bottom:16px;">
+        <div class="stat-pill" style="background:#e8eef7;"><div class="stat-num" style="color:#3a5a8a;">11</div><div class="stat-lbl" style="color:#3a5a8a;">Open</div></div>
+        <div class="stat-pill" style="background:#fff8e0;"><div class="stat-num" style="color:#c09000;">3</div><div class="stat-lbl" style="color:#c09000;">Pending</div></div>
+        <div class="stat-pill" style="background:#e8f0fe;"><div class="stat-num" style="color:#001EE6;">1</div><div class="stat-lbl" style="color:#001EE6;">In Progress</div></div>
+        <div class="stat-pill" style="background:#eef5e0;"><div class="stat-num" style="color:#2a5000;">24</div><div class="stat-lbl" style="color:#2a5000;">DPM Queue</div></div>
+      </div>
+      <div class="prog-wrap">
+        <div class="prog-seg" style="flex:11;background:#3a5a8a;border-radius:99px 0 0 99px;"></div>
+        <div class="prog-seg" style="flex:3;background:#FBB911;"></div>
+        <div class="prog-seg" style="flex:1;background:#001EE6;"></div>
+        <div class="prog-seg" style="flex:24;background:#A9C47F;border-radius:0 99px 99px 0;"></div>
+      </div>
+      <div class="prog-legend" style="margin-top:6px;">
+        <span style="color:#3a5a8a;">■ Open (11)</span>
+        <span style="color:#c09000;">■ Pending Review (3)</span>
+        <span style="color:#001EE6;">■ In Progress (1)</span>
+        <span style="color:#2a5000;">■ Approved for DPM (24)</span>
+      </div>
+    </div>
+
+    <!-- Sprint -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <div class="eyebrow" style="margin-bottom:0;flex:1;">Sprint 26.2.5 — 39 Items</div>
+        <a class="ext-link" href="https://bissell.visualstudio.com/Consumer2/_dashboards/dashboard/204b3b7b-4213-4503-8b94-5114af18b2df" target="_blank" style="color:#001EE6;background:#e8f0fe;border-color:#001EE644;">↗ ADO</a>
+      </div>
+      <div class="grid-3" style="margin-bottom:14px;">
+        <div class="stat-pill" style="background:#e8f0fe;"><div class="stat-num" style="color:#001EE6;">9</div><div class="stat-lbl" style="color:#001EE6;">Active</div></div>
+        <div class="stat-pill" style="background:#f0f8ea;"><div class="stat-num" style="color:#2a5000;">7</div><div class="stat-lbl" style="color:#2a5000;">Validation</div></div>
+        <div class="stat-pill" style="background:#eef5e0;"><div class="stat-num" style="color:#2a5000;">12</div><div class="stat-lbl" style="color:#2a5000;">Defined</div></div>
+      </div>
+      <div class="prog-wrap">
+        <div class="prog-seg" style="flex:9;background:#001EE6;border-radius:99px 0 0 99px;"></div>
+        <div class="prog-seg" style="flex:7;background:#2a5000;"></div>
+        <div class="prog-seg" style="flex:12;background:#A9C47F;"></div>
+        <div class="prog-seg" style="flex:9;background:#FBB911;"></div>
+        <div class="prog-seg" style="flex:2;background:#9BACC3;border-radius:0 99px 99px 0;"></div>
+      </div>
+      <div class="prog-legend" style="margin-top:6px;margin-bottom:12px;">
+        <span style="color:#001EE6;">■ Active (9)</span>
+        <span style="color:#2a5000;">■ Validation (7)</span>
+        <span style="color:#2a5000;">■ Defined (12)</span>
+        <span style="color:#c09000;">■ Defining (9)</span>
+        <span style="color:#556888;">■ New (2)</span>
+      </div>
+      <div style="padding:8px 12px;background:#f5f2ea;border-radius:8px;font-size:10px;color:#4a6080;">35 User Stories · 3 Bugs · 1 Incident</div>
+    </div>
+
+    <!-- Roadmap -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <div class="eyebrow" style="margin-bottom:0;flex:1;">2026 Roadmap by Quarter</div>
+        <a class="ext-link" href="https://miro.com/app/board/uXjVJ2hDkcg=/" target="_blank" style="color:#FA1400;background:#fff0f0;border-color:#FA140044;">↗ Miro</a>
+      </div>
+      <div class="grid-2" style="gap:8px;margin-bottom:16px;">
+        <div style="background:#f5f2ea;border-radius:10px;padding:12px 14px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="font-size:15px;font-weight:800;color:#001E4B;">Q1</span><span style="font-size:9px;font-weight:700;background:#001E4B;color:#FFFCF2;padding:2px 7px;border-radius:10px;">9</span></div>
+          <div style="font-size:9px;font-weight:700;color:#FA1400;margin-bottom:2px;">Sierra AI (3)</div>
+          <div style="font-size:9px;font-weight:700;color:#4a8000;margin-bottom:2px;">Market Expansion (3)</div>
+          <div style="font-size:9px;font-weight:700;color:#5a00a0;margin-bottom:2px;">Strategic (2)</div>
+          <div style="font-size:9px;font-weight:700;color:#c09000;">Commerce (1)</div>
+        </div>
+        <div style="background:#f5f2ea;border-radius:10px;padding:12px 14px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="font-size:15px;font-weight:800;color:#001E4B;">Q2</span><span style="font-size:9px;font-weight:700;background:#001E4B;color:#FFFCF2;padding:2px 7px;border-radius:10px;">10</span></div>
+          <div style="font-size:9px;font-weight:700;color:#FA1400;margin-bottom:2px;">Sierra AI (2)</div>
+          <div style="font-size:9px;font-weight:700;color:#4a8000;margin-bottom:2px;">Market Expansion (4)</div>
+          <div style="font-size:9px;font-weight:700;color:#001EE6;margin-bottom:2px;">After Sales (1)</div>
+          <div style="font-size:9px;font-weight:700;color:#888;">Run (3)</div>
+        </div>
+        <div style="background:#f5f2ea;border-radius:10px;padding:12px 14px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="font-size:15px;font-weight:800;color:#001E4B;">Q3</span><span style="font-size:9px;font-weight:700;background:#001E4B;color:#FFFCF2;padding:2px 7px;border-radius:10px;">6</span></div>
+          <div style="font-size:9px;font-weight:700;color:#FA1400;margin-bottom:2px;">Sierra AI (2)</div>
+          <div style="font-size:9px;font-weight:700;color:#4a8000;margin-bottom:2px;">Market Expansion (3)</div>
+          <div style="font-size:9px;font-weight:700;color:#888;">Run (1)</div>
+        </div>
+        <div style="background:#f5f2ea;border-radius:10px;padding:12px 14px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="font-size:15px;font-weight:800;color:#001E4B;">Q4</span><span style="font-size:9px;font-weight:700;background:#001E4B;color:#FFFCF2;padding:2px 7px;border-radius:10px;">2</span></div>
+          <div style="font-size:9px;font-weight:700;color:#888;">Run (2)</div>
+          <div style="font-size:9px;color:#9BACC3;margin-top:6px;line-height:1.5;">Further initiatives not yet assigned to Q4.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ SPRINT ══════════════════════════════════════════════════════════════════ -->
+<div id="tab-sprint" class="tab-pane">
+  <div class="filter-bar">
+    <a class="ext-link" href="https://bissell.visualstudio.com/Consumer2/_dashboards/dashboard/204b3b7b-4213-4503-8b94-5114af18b2df" target="_blank" style="color:#001EE6;background:#e8f0fe;border-color:#001EE644;">↗ Open ADO Sprint Dashboard</a>
+    <div class="spacer"></div>
+    <button class="filter-btn active" onclick="filterSprint('all',this)">All</button>
+    <button class="filter-btn" onclick="filterSprint('Active',this)">Active</button>
+    <button class="filter-btn" onclick="filterSprint('Validation',this)">Validation</button>
+    <button class="filter-btn" onclick="filterSprint('Defined',this)">Defined</button>
+    <button class="filter-btn" onclick="filterSprint('Defining',this)">Defining</button>
+    <button class="filter-btn" onclick="filterSprint('New',this)">New</button>
+  </div>
+  <div id="sprint-content"></div>
+</div>
+
+<!-- ══ INTAKE ══════════════════════════════════════════════════════════════════ -->
+<div id="tab-intake" class="tab-pane">
+  <div class="filter-bar">
+    <input class="search-input" id="intake-search" type="text" placeholder="Search requests, requestors…" oninput="renderIntake()">
+    <div class="spacer"></div>
+    <a class="ext-link" href="https://app.smartsheet.com/sheets/6798340143402884" target="_blank" style="color:#001E4B;background:#e8eef7;border-color:#9BACC344;">↗ Open Smartsheet</a>
+    <button class="filter-btn active" id="intake-filter-Active" onclick="setIntakeFilter('Active',this)">Active (39)</button>
+    <button class="filter-btn" id="intake-filter-Completed" onclick="setIntakeFilter('Completed',this)">Completed (10)</button>
+    <button class="filter-btn" id="intake-filter-All" onclick="setIntakeFilter('All',this)">All</button>
+  </div>
+  <div id="intake-callout"></div>
+  <div id="intake-content"></div>
+</div>
+
+<!-- ══ ROADMAP ═════════════════════════════════════════════════════════════════ -->
+<div id="tab-roadmap" class="tab-pane">
+  <div class="filter-bar">
+    <a class="ext-link" href="https://miro.com/app/board/uXjVJ2hDkcg=/" target="_blank" style="color:#FA1400;background:#fff0f0;border-color:#FA140044;">↗ View Full Miro Board</a>
+    <div class="spacer"></div>
+    <div class="q-btns">
+      <button class="q-btn active" id="qbtn-Q1" onclick="showQuarter('Q1',this)"><div class="q-num">Q1</div><div class="q-lbl">Jan – Mar</div><div class="q-count">9 items</div></button>
+      <button class="q-btn" id="qbtn-Q2" onclick="showQuarter('Q2',this)"><div class="q-num">Q2</div><div class="q-lbl">Apr – Jun</div><div class="q-count">10 items</div></button>
+      <button class="q-btn" id="qbtn-Q3" onclick="showQuarter('Q3',this)"><div class="q-num">Q3</div><div class="q-lbl">Jul – Sep</div><div class="q-count">6 items</div></button>
+      <button class="q-btn" id="qbtn-Q4" onclick="showQuarter('Q4',this)"><div class="q-num">Q4</div><div class="q-lbl">Oct – Dec</div><div class="q-count">2 items</div></button>
+    </div>
+  </div>
+  <div class="legend-box">
+    <div class="eyebrow" style="margin-bottom:0;">Miro Board Color Legend</div>
+    <div class="legend-items">
+      <div class="legend-item"><div class="legend-dot" style="background:#fcf281;"></div><span style="font-size:10px;font-weight:600;">Charter Approved / RunOps</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#aaed92;"></div><span style="font-size:10px;font-weight:600;">Dependencies on Other Teams</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#86e6d9;"></div><span style="font-size:10px;font-weight:600;">In Flight</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#9edcfa;"></div><span style="font-size:10px;font-weight:600;">Planning / Discovery</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#d8c7ff;"></div><span style="font-size:10px;font-weight:600;">FY26 Capital Budget</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fcb6d4;"></div><span style="font-size:10px;font-weight:600;">Small Enhancements</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#febbbe;"></div><span style="font-size:10px;font-weight:600;">Run / Enhancements &amp; Incidents</span></div>
+    </div>
+  </div>
+  <div id="roadmap-content"></div>
+</div>
+
+<!-- ══ PIPELINE ════════════════════════════════════════════════════════════════ -->
+<div id="tab-pipeline" class="tab-pane">
+  <div class="filter-bar" style="margin-bottom:16px;">
+    <div style="font-size:11px;color:#4a6080;">Gantt-style view of all 2026 roadmap initiatives by quarter. Source: Miro Consumer 2 Roadmap board.</div>
+    <div class="spacer"></div>
+    <a class="ext-link" href="https://miro.com/app/board/uXjVJ2hDkcg=/" target="_blank" style="color:#FA1400;background:#fff0f0;border-color:#FA140044;">↗ View in Miro</a>
+  </div>
+  <div style="background:#fff;border-radius:12px;overflow:hidden;border:1.5px solid #e0dcd0;margin-bottom:16px;overflow-x:auto;">
+    <table class="pip-table">
+      <thead><tr>
+        <th style="width:36%;">Initiative</th>
+        <th style="width:12%;">Category</th>
+        <th style="width:9%;text-align:center;">Q1</th>
+        <th style="width:9%;text-align:center;">Q2</th>
+        <th style="width:9%;text-align:center;">Q3</th>
+        <th style="width:9%;text-align:center;">Q4</th>
+        <th>Status</th>
+      </tr></thead>
+      <tbody id="pipeline-body"></tbody>
+    </table>
+  </div>
+  <div style="background:#fff8f0;border-radius:10px;padding:12px 16px;border-left:4px solid #FBB911;">
+    <div style="font-size:10px;font-weight:700;color:#001E4B;margin-bottom:4px;">📌 Additional Items Flagged on Miro Board</div>
+    <div style="font-size:10px;color:#4a6080;line-height:1.8;">AI Product Recommendations · Techsee International (DE &amp; AU) · AI Search · Support Site Frontend Replatform · Narvar Returns · BHI Repair</div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<div class="ftr">
+  <div class="ftr-text">Consumer Care Project Management · BISSELL Homecare, Inc. · May 2026</div>
+  <div class="ftr-conf">Confidential — Internal Use Only</div>
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+var SS = "https://app.smartsheet.com/sheets/6798340143402884";
+var ADO = "https://bissell.visualstudio.com/Consumer2/_workitems/edit";
+
+var INTAKE = [
+  {id:7146913234358148,name:"Restrict reports containing market/country data & stats",req:"Andrey Bessarabenko",type:"Enhancement",region:"Europe",adoId:"69348",status:"In Progress"},
+  {id:5176588397383556,name:"Sierra – Providing BISSELL Safety Data Sheets to Consumers",req:"John Pfeiffer",type:"Initiative",region:"Canada, US",status:"Pending Review"},
+  {id:2924788583698308,name:"Sierra Feature Enhancement – Selectable Titles/Responses",req:"John Pfeiffer",type:"Initiative",region:"Canada, US",status:"Pending Review"},
+  {id:7428388211068804,name:"Sierra – Support Content Images",req:"John Pfeiffer",type:"Initiative",region:"Canada, US",status:"Open"},
+  {id:7991338164490116,name:"Newsletter – Opt In",req:"Matt Decker",type:"Enhancement",region:"Australia/NZ",status:"Open"},
+  {id:8687685775851396,name:"OSvC CSAT NL Auto-Close Survey Setup",req:"Christopher McKnight",type:"Enhancement",region:"Europe-Continental",adoId:"75093",status:"Open"},
+  {id:1485684666335108,name:"OSvC CSAT PL Auto-Close Survey Setup",req:"Christopher McKnight",type:"Enhancement",region:"Europe-Continental",adoId:"75094",status:"Open"},
+  {id:2644244843396996,name:"OSvC Data Automation to DOMO",req:"Brian Demoray",type:"Enhancement",region:"AU/NZ, Canada, US",status:"Open"},
+  {id:3604157316923268,name:"Automated Annual Updates of Spare Parts Price Lists",req:"JP",type:"Initiative",region:"Canada, US",status:"Open"},
+  {id:2950267862581124,name:"BISSELL Commercial Products – Sprinklr Access",req:"Christina Bacon",type:"Initiative",region:"US",status:"Open"},
+  {id:727936362151812,name:"Sierra – DOMO API Access",req:"Brian Demchok",type:"Initiative",region:"Canada, Europe, US",status:"Open"},
+  {id:3848553089138564,name:"Model Search Tab",req:"Christina Bacon",type:"Initiative",region:"Australia/NZ",status:"Open"},
+  {id:7802326352330628,name:"Central Repair Program – Add New Disposition",req:"Jeffrey Beurkens",type:"Enhancement",region:"US",status:"Open"},
+  {id:5261644080807812,name:"Eway Integration to OSvC",req:"Christina Bacon",type:"Enhancement",region:"Australia/NZ",status:"Open"},
+  {id:7364432688512900,name:"Shopify Integration",req:"Christina Bacon",type:"Enhancement",region:"Australia/NZ",status:"Open"},
+  {id:4769491442270084,name:"Ability to Use Photos Inside Standard Text",req:"Matt Decker",type:"Enhancement",region:"All",status:"Approved for DPM"},
+  {id:308346130993028,name:"Hide Fedex Link",req:"Chelsea Johnson",type:"Enhancement",region:"US",adoId:"73221",status:"Approved for DPM"},
+  {id:8132075652845444,name:"Allow SSG Leadership to Change Profiles",req:"—",type:"Enhancement",region:"North America",adoId:"71871",status:"Approved for DPM"},
+  {id:813726258368388,name:"NA Support: Agent Error Message for Failed Order",req:"Joe Lochinski",type:"Enhancement",region:"North America",adoId:"70678",status:"Approved for DPM"},
+  {id:5317325885738884,name:"NA Support: Support Portal – Returns Page Updates",req:"Nick Grant",type:"Enhancement",region:"North America",adoId:"71120",status:"Approved for DPM"},
+  {id:3065526072053636,name:"Quality Site > OSvC RA Integration",req:"Chelsea Johnson",type:"Enhancement",region:"US",adoId:"71873",status:"Approved for DPM"},
+  {id:7569125699424132,name:"Update OSvC Message for Non-Recalled Models",req:"Chelsea Johnson",type:"Enhancement",region:"All",adoId:"71875",status:"Approved for DPM"},
+  {id:1517413700145028,name:"OSvC: Subjects of the Emails from Consumers",req:"Andrey Bessarabenko",type:"Enhancement",region:"All",adoId:"71874",status:"Approved for DPM"},
+  {id:8554288117911428,name:"Re-send Digital Credit Code",req:"Kelly Blanchard",type:"Enhancement",region:"North America",adoId:"66432",status:"Approved for DPM"},
+  {id:3769213513830276,name:"Adding Fraud Indicator to OSvC Incident",req:"Christina Bacon",type:"Enhancement",region:"AU/NZ, North America",adoId:"60031",status:"Approved for DPM"},
+  {id:5458063374094212,name:"Escalated Incidents Need to Remain in Open Status",req:"Patrick Tucker",type:"Enhancement",region:"AU/NZ, Europe, NA",adoId:"61057",status:"Approved for DPM"},
+  {id:3206263560408964,name:"Locking Incidents",req:"Kelly Blanchard",type:"Enhancement",region:"North America",adoId:"62469",status:"Approved for DPM"},
+  {id:7709863187779460,name:"German Support Portal",req:"Brett Anthony",type:"Enhancement",region:"Europe",adoId:"57796",status:"Approved for DPM"},
+  {id:2080363653566340,name:"Support Portals Hide Video Support Link",req:"Dana Burland",type:"Enhancement",region:"All",adoId:"63539",status:"Approved for DPM"},
+  {id:6583963280936836,name:"Mark an Asset as a Replacement Machine",req:"Patrick Tucker",type:"Enhancement",region:"NA, AU/NZ, Europe",adoId:"58745",status:"Approved for DPM"},
+  {id:4332163467251588,name:"Escalation Tab",req:"Kelly Blanchard",type:"Enhancement",region:"North America",adoId:"60022",status:"Approved for DPM"},
+  {id:8835763094622084,name:"Create AU/NZ BAU Escalations",req:"Christina Bacon",type:"Enhancement",region:"Australia/NZ",adoId:"60384",status:"Approved for DPM"},
+  {id:250776304947076,name:"OSvC Audit Log of Time Tracker Timestamps",req:"Brian Demoray",type:"Enhancement",region:"All",adoId:"64289",status:"Approved for DPM"},
+  {id:4754375932317572,name:"Hold For Pickup Address Validation",req:"Brian Demchok",type:"Enhancement",region:"North America",adoId:"62470",status:"Approved for DPM"},
+  {id:2502576118632324,name:"Upgrading OSvC FnT",req:"Tyler Mrozinski",type:"Enhancement",region:"North America",adoId:"60382",status:"Approved for DPM"},
+  {id:1376676211789700,name:"OSvC Archived Incident Time Expansion",req:"Tyler Mrozinski",type:"Enhancement",region:"North America",adoId:"60385",status:"Approved for DPM"},
+  {id:8272813141200772,name:"Explore AWS for OSvC",req:"Dana Burland",type:"Enhancement",region:"All",adoId:"65080",status:"Approved for DPM"},
+  {id:5880275839160196,name:"Sierra Chat ID to OSvC (Searchable)",req:"Brian Demchok",type:"Enhancement",region:"North America",adoId:"69315",status:"Approved for DPM"},
+  {id:3628476025474948,name:"Electronic Claim Labels",req:"—",type:"Enhancement",region:"North America",adoId:"70535",status:"Approved for DPM"},
+  {id:672988770013060,name:"Default Shipping Method in OSvC to BWY",req:"Kelly Blanchard",type:"Enhancement",region:"Canada, US",adoId:"74099",status:"Completed"},
+  {id:6302488304226180,name:"Sanitaire Emails Flow in OSvC",req:"—",type:"Enhancement",region:"North America",status:"Completed"},
+  {id:1798888676855684,name:"NA Support: Blocking RAs for HI/AK/US Territories",req:"Kelly Blanchard",type:"Enhancement",region:"North America",adoId:"70621",status:"Completed"},
+  {id:7006175746002820,name:"Add FedEx International for US Territories",req:"Kelly Blanchard",type:"Enhancement",region:"North America",adoId:"65373",status:"Completed"},
+  {id:6021013327515524,name:"Hide Paper Check as a Payment Option",req:"Kelly Blanchard",type:"Enhancement",region:"North America",adoId:"69531",status:"Completed"},
+  {id:954463746723716,name:"Content on support.bissell.de",req:"Andrey Bessarabenko",type:"Enhancement",region:"Europe",adoId:"60014",status:"Completed"},
+  {id:4895113420672900,name:"Inform Agent: Items Not Collected for Repair",req:"Christopher McKnight",type:"Enhancement",region:"Europe",adoId:"69411",status:"Completed"},
+  {id:4050688490540932,name:"Allow Tier 5 Agents to Place Priority Hold Orders",req:"Joe Lochinski",type:"Enhancement",region:"North America",adoId:"66619",status:"Completed"},
+  {id:2643313606987652,name:"UK Agent Support Portal Homepage Change",req:"Christopher McKnight",type:"Enhancement",region:"Europe",adoId:"69093",status:"Completed"},
+  {id:391513793302404,name:"LiveChat Close Chat Confirmation Popup",req:"Nick Grant",type:"Enhancement",region:"North America",adoId:"64525",status:"Completed"},
+];
+
+var SPRINT = [
+  {id:"74478",type:"User Story",title:"Steam Shot 2: Fix KB Reference for Steam Shot 1 Form",state:"Validation",tags:"OSvC"},
+  {id:"70468",type:"User Story",title:"OSvC: Update FedEx API to REST API",state:"Validation",tags:"OSvC"},
+  {id:"57742",type:"Bug",title:"US Portal: # of Products Showing up in Product Subcategory Look-Up",state:"Validation",tags:"US Support Portal"},
+  {id:"69877",type:"User Story",title:"OSvC: Create New API Account for Analytics",state:"Validation",tags:"OSvC"},
+  {id:"69878",type:"User Story",title:"OSvC: Create New API Account for Mobile App",state:"Validation",tags:"OSvC"},
+  {id:"74791",type:"User Story",title:"Research: top internal-only links agents send to consumers",state:"Validation",tags:"OSvC"},
+  {id:"74980",type:"User Story",title:"TikTok SPIKE: Ability to Receive and Respond to Buyer Messages",state:"Validation",tags:"TikTokShop"},
+  {id:"62689",type:"Bug",title:"Oracle Live Chat: Live Agent Survey Not Populating",state:"New",tags:"Oracle Chat"},
+  {id:"75267",type:"User Story",title:"DE Support: Remove Cookie Policy and Privacy Policy Austria from Footer",state:"New",tags:"DE Support Portal"},
+  {id:"73401",type:"User Story",title:"Profile Service to New AWS Accounts – OSvC",state:"Defining",tags:"OSvC"},
+  {id:"66432",type:"User Story",title:"SS: Re-send Digital Credit Code",state:"Defining",tags:"OSvC"},
+  {id:"69709",type:"User Story",title:"US: Update Recall Request Form to Remove ASC Reference",state:"Defining",tags:"OSvC"},
+  {id:"70157",type:"User Story",title:"Provide Access to Teams: IoT Development > Consumer Care",state:"Defining",tags:"EU Support"},
+  {id:"73818",type:"User Story",title:"Migrate OSvC Data Shared Folder – Extract (New Location)",state:"Defining",tags:"OSvC"},
+  {id:"73341",type:"User Story",title:"Klaviyo: Product Registration – API",state:"Defining",tags:"OSvC / US Support Portal"},
+  {id:"73342",type:"User Story",title:"Klaviyo Product Registration – BUI",state:"Defining",tags:"OSvC / US Support Portal"},
+  {id:"74977",type:"User Story",title:"Ability to Export OSvC Clickstream Data",state:"Defining",tags:"OSvC"},
+  {id:"74979",type:"User Story",title:"SPIKE: Ability for Agents to Search Internal Knowledgebase",state:"Defining",tags:"OSvC / SPIKE"},
+  {id:"75237",type:"User Story",title:"KTLO: Create Solution Document for OSvC Agent Scripting",state:"Defined",tags:"KTLO"},
+  {id:"75310",type:"User Story",title:"Pet: Add New Pet Attribute to Importer Job Failing in PROD",state:"Defined",tags:"OSvC"},
+  {id:"68784",type:"User Story",title:"R3: IBHS Post R3 – Order Service",state:"Defined",tags:"OSvC"},
+  {id:"63539",type:"User Story",title:"Support Portals Hide Video Support Link",state:"Defined",tags:"Support Portal"},
+  {id:"69348",type:"User Story",title:"SPIKE: EU: Restrict Reports Containing Market/Country Data & Stats",state:"Defined",tags:"EU Support"},
+  {id:"70154",type:"User Story",title:"DE Support: Enable IoT Escalations Tab",state:"Defined",tags:"DE Support Portal"},
+  {id:"71217",type:"User Story",title:"UK Support: Enable IoT Escalations Tab",state:"Defined",tags:"UK Support Portal"},
+  {id:"70153",type:"User Story",title:"Create EU Connected Product Escalated Queue",state:"Defined",tags:"OSvC"},
+  {id:"75093",type:"User Story",title:"OSvC: Measure EU CSAT – Waiting on Warehouse Status for NL",state:"Defined",tags:"OSvC"},
+  {id:"75094",type:"User Story",title:"OSvC: Measure EU CSAT – Waiting on Warehouse Status for PL",state:"Defined",tags:"OSvC"},
+  {id:"75312",type:"User Story",title:"Prod Incident Support: Sprint 26.2.5",state:"Defined",tags:"FreshService"},
+  {id:"75392",type:"User Story",title:"OSvC Test Connection",state:"Defined",tags:""},
+  {id:"70557",type:"User Story",title:"Five9: SSO Integration",state:"Active",tags:"Five9"},
+  {id:"70558",type:"User Story",title:"Five9: Sierra SIP Migration",state:"Active",tags:"Five9 / Sierra AI"},
+  {id:"71187",type:"User Story",title:"Five9 – VO User & Profile Sync",state:"Active",tags:"Five9"},
+  {id:"66047",type:"User Story",title:"License Management Analysis",state:"Active",tags:"Five9"},
+  {id:"75148",type:"User Story",title:"Narvar: Update FedEx API to REST API",state:"Active",tags:"Narvar"},
+  {id:"70678",type:"User Story",title:"SPIKE: NA Support: Agent Error Message for Failed Order",state:"Active",tags:"OSvC / SPIKE"},
+  {id:"74973",type:"Incident",title:"General – Warranty Date Displayed Incorrectly",state:"Active",tags:"FreshService"},
+  {id:"75086",type:"Bug",title:"OSvC Incidents on Status Waiting on Warehouse Not Closing",state:"Active",tags:"FreshService"},
+  {id:"75251",type:"User Story",title:"SPIKE: Investigate OSvC Automating CI/CD Pipelines",state:"Active",tags:"KTLO / OSvC / SPIKE"},
+];
+
+var ROADMAP = {
+  Q1:[
+    {name:"Sierra AI: North America (Live)",cat:"Sierra AI",color:"#86e6d9",status:"In Flight"},
+    {name:"Germany Chat Implementation",cat:"Sierra AI",color:"#fcf281",status:"Charter Approved"},
+    {name:"Oracle Live Chat: Translation",cat:"Sierra AI",color:"#9edcfa",status:"Planning"},
+    {name:"France / EU Portal",cat:"Market Expansion",color:"#d8d8b1",status:"In Progress"},
+    {name:"Australia Implementation",cat:"Market Expansion",color:"#fcf281",status:"Charter Approved"},
+    {name:"India",cat:"Market Expansion",color:"#aaed92",status:"Dependency"},
+    {name:"Global KB Replacement – Exploration",cat:"Strategic",color:"#d8c7ff",status:"FY26 Capital"},
+    {name:"CRM Replacement – Exploration",cat:"Strategic",color:"#d8c7ff",status:"FY26 Capital"},
+    {name:"Project Catapult",cat:"Commerce",color:"#aaed92",status:"Dependency"},
+  ],
+  Q2:[
+    {name:"UK Chat Implementation",cat:"Sierra AI",color:"#fcf281",status:"Charter Approved"},
+    {name:"Germany Sierra Live",cat:"Sierra AI",color:"#86e6d9",status:"In Flight"},
+    {name:"France / EU Portal (cont.)",cat:"Market Expansion",color:"#d8d8b1",status:"In Progress"},
+    {name:"Germany Support Portal",cat:"Market Expansion",color:"#9edcfa",status:"Planning"},
+    {name:"Dutch / Italian Implementation",cat:"Market Expansion",color:"#fcf281",status:"Charter Approved"},
+    {name:"Turkey",cat:"Market Expansion",color:"#aaed92",status:"Dependency"},
+    {name:"Global After Sales Portal",cat:"After Sales",color:"#86e6d9",status:"In Flight"},
+    {name:"Small Enhancements (Feat. 50120)",cat:"Run",color:"#fcb6d4",status:"Continuous"},
+    {name:"Enhancements & Demands (Epic 34699)",cat:"Run",color:"#febbbe",status:"Continuous"},
+    {name:"OSvC 2025 Upgrade (Feat. 63929)",cat:"Run",color:"#febbbe",status:"Continuous"},
+  ],
+  Q3:[
+    {name:"French Chat Implementation",cat:"Sierra AI",color:"#fcf281",status:"Charter Approved"},
+    {name:"UK Sierra Live",cat:"Sierra AI",color:"#86e6d9",status:"In Flight"},
+    {name:"Australia (Support Portal)",cat:"Market Expansion",color:"#d8d8b1",status:"In Progress"},
+    {name:"UK Support Portal",cat:"Market Expansion",color:"#9edcfa",status:"Planning"},
+    {name:"Poland Implementation",cat:"Market Expansion",color:"#fcf281",status:"Charter Approved"},
+    {name:"OSvC Upgrade (cont.)",cat:"Run",color:"#febbbe",status:"Continuous"},
+  ],
+  Q4:[
+    {name:"Small Enhancements (Feat. 50120)",cat:"Run",color:"#fcb6d4",status:"Continuous"},
+    {name:"Enhancements & Demands (Epic 34699)",cat:"Run",color:"#febbbe",status:"Continuous"},
+  ],
+};
+
+var PIPELINE = [
+  {name:"Sierra AI: North America",cat:"Sierra AI",Q1:1,Q2:1,Q3:0,Q4:0,color:"#86e6d9",status:"In Flight"},
+  {name:"Germany Chat → Sierra Live",cat:"Sierra AI",Q1:1,Q2:1,Q3:0,Q4:0,color:"#fcf281",status:"Charter Approved"},
+  {name:"UK Chat → Sierra Live",cat:"Sierra AI",Q1:0,Q2:1,Q3:1,Q4:0,color:"#fcf281",status:"Charter Approved"},
+  {name:"French Chat",cat:"Sierra AI",Q1:0,Q2:0,Q3:1,Q4:0,color:"#fcf281",status:"Charter Approved"},
+  {name:"France / EU Portal",cat:"Market",Q1:1,Q2:1,Q3:0,Q4:0,color:"#d8d8b1",status:"In Progress"},
+  {name:"Australia Implementation + Portal",cat:"Market",Q1:1,Q2:0,Q3:1,Q4:0,color:"#fcf281",status:"Charter Approved"},
+  {name:"Dutch / Italian Implementation",cat:"Market",Q1:0,Q2:1,Q3:0,Q4:0,color:"#fcf281",status:"Charter Approved"},
+  {name:"Poland Implementation",cat:"Market",Q1:0,Q2:0,Q3:1,Q4:0,color:"#fcf281",status:"Charter Approved"},
+  {name:"India",cat:"Market",Q1:1,Q2:0,Q3:0,Q4:0,color:"#aaed92",status:"Dependency"},
+  {name:"Turkey",cat:"Market",Q1:0,Q2:1,Q3:0,Q4:0,color:"#aaed92",status:"Dependency"},
+  {name:"Global After Sales Portal",cat:"After Sales",Q1:0,Q2:1,Q3:0,Q4:0,color:"#86e6d9",status:"In Flight"},
+  {name:"Global KB Replacement",cat:"Strategic",Q1:1,Q2:0,Q3:0,Q4:0,color:"#d8c7ff",status:"FY26 Capital"},
+  {name:"CRM Replacement",cat:"Strategic",Q1:1,Q2:0,Q3:0,Q4:0,color:"#d8c7ff",status:"FY26 Capital"},
+  {name:"Project Catapult",cat:"Commerce",Q1:1,Q2:0,Q3:0,Q4:0,color:"#aaed92",status:"Dependency"},
+  {name:"Small Enhancements + Enhancements & Demands",cat:"Run",Q1:1,Q2:1,Q3:1,Q4:1,color:"#fcb6d4",status:"Continuous"},
+];
+
+// ── STYLE HELPERS ─────────────────────────────────────────────────────────────
+var STATUS_STYLE = {
+  "In Progress":     {bg:"#e8f0fe",color:"#001EE6"},
+  "Pending Review":  {bg:"#fff8e0",color:"#c09000"},
+  "Open":            {bg:"#e8eef7",color:"#3a5a8a"},
+  "Approved for DPM":{bg:"#eef5e0",color:"#2a5000"},
+  "Completed":       {bg:"#f0f4f8",color:"#001E4B"},
+  "Active":          {bg:"#e8f0fe",color:"#001EE6"},
+  "Validation":      {bg:"#f0f8ea",color:"#2a5000"},
+  "Defined":         {bg:"#eef5e0",color:"#2a5000"},
+  "Defining":        {bg:"#fff8e0",color:"#c09000"},
+  "New":             {bg:"#f0f4f8",color:"#556888"},
+  "In Flight":       {bg:"#d4f5ec",color:"#006644"},
+  "Charter Approved":{bg:"#fffbe0",color:"#7a5c00"},
+  "Dependency":      {bg:"#edfade",color:"#2a5000"},
+  "FY26 Capital":    {bg:"#f0e8ff",color:"#5a00a0"},
+  "Continuous":      {bg:"#ffe8f0",color:"#8a0040"},
+  "Planning":        {bg:"#e8f0fe",color:"#001EE6"},
+};
+var STATUS_DOT = {"In Progress":"#001EE6","Pending Review":"#FBB911","Open":"#3a5a8a","Approved for DPM":"#A9C47F","Completed":"#001E4B"};
+var CAT_COLOR = {"Sierra AI":"#FA1400","Market Expansion":"#4a8000","Market":"#4a8000","After Sales":"#001EE6","Strategic":"#5a00a0","Commerce":"#c09000","Run":"#888"};
+var SPRINT_ORDER = ["Active","Validation","Defined","Defining","New"];
+var INTAKE_ORDER = ["In Progress","Pending Review","Open","Approved for DPM","Completed"];
+
+function badge(label) {
+  var s = STATUS_STYLE[label] || {bg:"#f0f0f0",color:"#888"};
+  return '<span class="badge" style="background:'+s.bg+';color:'+s.color+';">'+escH(label)+'</span>';
+}
+function typeBadge(type) {
+  var isInit=type==="Initiative", isBug=type==="Bug"||type==="Incident";
+  var bg=isInit?"#fff0f0":isBug?"#ffecec":"#f0f4f8";
+  var c=isInit?"#FA1400":isBug?"#d00000":"#556888";
+  return '<span class="type-badge" style="background:'+bg+';color:'+c+';">'+escH(type)+'</span>';
+}
+function escH(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────────
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── SPRINT ────────────────────────────────────────────────────────────────────
+var sprintFilter = 'all';
+function filterSprint(f, btn) {
+  sprintFilter = f;
+  document.querySelectorAll('#tab-sprint .filter-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  renderSprint();
+}
+function renderSprint() {
+  var items = sprintFilter==='all' ? SPRINT : SPRINT.filter(function(i){return i.state===sprintFilter;});
+  var html = '';
+  SPRINT_ORDER.forEach(function(state) {
+    var group = items.filter(function(i){return i.state===state;});
+    if(!group.length) return;
+    var ss = STATUS_STYLE[state]||{bg:"#f5f2ea",color:"#888"};
+    html += '<div class="tbl-section">';
+    html += '<div class="sec-hdr">';
+    html += '<div class="sec-dot" style="background:'+(ss.color||'#888')+'"></div>';
+    html += '<span class="sec-hdr-label" style="color:'+ss.color+'">'+escH(state)+'</span>';
+    html += '<span class="sec-hdr-count" style="background:'+ss.bg+';color:'+ss.color+'">'+group.length+'</span>';
+    html += '</div><div class="tbl-body">';
+    group.forEach(function(item, i) {
+      html += '<div class="tbl-row">';
+      html += '<a href="'+ADO+'/'+item.id+'" target="_blank" style="font-size:11px;font-weight:700;color:#001EE6;text-decoration:none;white-space:nowrap;width:52px;flex-shrink:0;">#'+item.id+'</a>';
+      html += typeBadge(item.type);
+      html += '<a href="'+ADO+'/'+item.id+'" target="_blank" style="flex:1;font-size:11px;font-weight:600;color:#001E4B;text-decoration:none;line-height:1.4;min-width:0;">'+escH(item.title)+'</a>';
+      if(item.tags) html += '<span style="font-size:9px;color:#9BACC3;flex-shrink:0;max-width:140px;text-align:right;line-height:1.3;">'+escH(item.tags)+'</span>';
+      html += badge(item.state);
+      html += '</div>';
+    });
+    html += '</div></div>';
+  });
+  document.getElementById('sprint-content').innerHTML = html;
+}
+
+// ── INTAKE ────────────────────────────────────────────────────────────────────
+var intakeFilter = 'Active';
+function setIntakeFilter(f, btn) {
+  intakeFilter = f;
+  document.querySelectorAll('[id^="intake-filter-"]').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  renderIntake();
+}
+function renderIntake() {
+  var search = (document.getElementById('intake-search')||{}).value||'';
+  var active = INTAKE.filter(function(r){return r.status!=="Completed";});
+  var completed = INTAKE.filter(function(r){return r.status==="Completed";});
+  var source = intakeFilter==='Active'?active:intakeFilter==='Completed'?completed:INTAKE;
+  var sl = search.toLowerCase();
+  var filtered = source.filter(function(r){
+    return !sl || r.name.toLowerCase().indexOf(sl)!==-1 || r.req.toLowerCase().indexOf(sl)!==-1;
+  });
+
+  // Callout
+  var callout = '';
+  if(intakeFilter==='Active') {
+    callout = '<div class="callout" style="background:#f0f4f8;">'
+      +'<div class="sec-dot" style="background:#001E4B;flex-shrink:0;"></div>'
+      +'<span style="font-size:11px;color:#4a6080;flex:1;"><strong style="color:#001E4B;">'+completed.length+' completed requests</strong> are tracked but hidden. Switch to "Completed" to view them.</span>'
+      +'<button class="filter-btn" onclick="setIntakeFilter(\'Completed\',document.getElementById(\'intake-filter-Completed\'))">View Completed</button>'
+      +'</div>';
+  }
+  document.getElementById('intake-callout').innerHTML = callout;
+
+  var html = '';
+  INTAKE_ORDER.forEach(function(status) {
+    var group = filtered.filter(function(r){return r.status===status;});
+    if(!group.length) return;
+    var dot = STATUS_DOT[status]||'#888';
+    var ss = STATUS_STYLE[status]||{bg:"#f5f2ea",color:"#888"};
+    html += '<div class="tbl-section">';
+    html += '<div class="sec-hdr">';
+    html += '<div class="sec-dot" style="background:'+dot+'"></div>';
+    html += '<span class="sec-hdr-label" style="color:'+dot+'">'+escH(status)+'</span>';
+    html += '<span class="sec-hdr-count" style="background:'+ss.bg+';color:'+dot+'">'+group.length+'</span>';
+    html += '</div><div class="tbl-body">';
+    group.forEach(function(item, i) {
+      var rowBg = i%2===0 ? '#fff' : '#faf8f2';
+      html += '<div class="tbl-row" style="background:'+rowBg+';display:grid;grid-template-columns:1fr auto auto auto;gap:12px;">';
+      html += '<div style="min-width:0;">';
+      html += '<a href="'+SS+'?rowId='+item.id+'" target="_blank" style="font-size:12px;font-weight:600;color:#001E4B;text-decoration:none;display:block;line-height:1.4;">'+escH(item.name)+'</a>';
+      html += '<span style="font-size:10px;color:#9BACC3;">'+escH(item.req)+' · '+escH(item.region)+'</span>';
+      html += '</div>';
+      html += typeBadge(item.type);
+      html += item.adoId ? '<a href="'+ADO+'/'+item.adoId+'" target="_blank" style="font-size:10px;font-weight:600;color:#001EE6;text-decoration:none;white-space:nowrap;">US #'+item.adoId+'</a>' : '<span style="font-size:10px;color:#ddd;width:50px;">—</span>';
+      html += '<a href="'+SS+'?rowId='+item.id+'" target="_blank" style="text-decoration:none;">'+badge(item.status)+'</a>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+  });
+  document.getElementById('intake-content').innerHTML = html;
+}
+
+// ── ROADMAP ───────────────────────────────────────────────────────────────────
+var activeQ = 'Q1';
+function showQuarter(q, btn) {
+  activeQ = q;
+  document.querySelectorAll('.q-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  renderRoadmap();
+}
+function renderRoadmap() {
+  var items = ROADMAP[activeQ]||[];
+  var grouped = {};
+  items.forEach(function(item) {
+    if(!grouped[item.cat]) grouped[item.cat]=[];
+    grouped[item.cat].push(item);
+  });
+  var html = '<div class="q-grid">';
+  Object.keys(grouped).forEach(function(cat) {
+    var catItems = grouped[cat];
+    var cc = CAT_COLOR[cat]||'#001E4B';
+    html += '<div class="q-cat-card">';
+    html += '<div class="q-cat-title" style="color:'+cc+'">'+escH(cat)+'</div>';
+    catItems.forEach(function(item, i) {
+      html += '<div class="q-item">';
+      html += '<div class="q-color-dot" style="background:'+item.color+';"></div>';
+      html += '<span class="q-item-name">'+escH(item.name)+'</span>';
+      html += badge(item.status);
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+  document.getElementById('roadmap-content').innerHTML = html;
+}
+
+// ── PIPELINE ──────────────────────────────────────────────────────────────────
+function renderPipeline() {
+  var html = '';
+  PIPELINE.forEach(function(item, i) {
+    var bg = i%2===0?'#fff':'#faf8f2';
+    var cc = CAT_COLOR[item.cat]||'#001E4B';
+    html += '<tr style="background:'+bg+';">';
+    html += '<td style="font-weight:600;color:#001E4B;">'+escH(item.name)+'</td>';
+    html += '<td style="color:'+cc+';font-weight:700;font-size:10px;">'+escH(item.cat)+'</td>';
+    ['Q1','Q2','Q3','Q4'].forEach(function(q){
+      html += '<td style="text-align:center;">';
+      html += item[q] ? '<div class="pip-bar-on" style="background:'+item.color+';"></div>' : '<div class="pip-bar-off"></div>';
+      html += '</td>';
+    });
+    html += '<td>'+badge(item.status)+'</td>';
+    html += '</tr>';
+  });
+  document.getElementById('pipeline-body').innerHTML = html;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderSprint();
+renderIntake();
+renderRoadmap();
+renderPipeline();
+</script>
+</body>
+</html>
